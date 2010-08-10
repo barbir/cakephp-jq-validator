@@ -1,0 +1,131 @@
+--------------------------------------------------------------------------------------------------------------------------
+CakePHP JQValidator
+--------------------------------------------------------------------------------------------------------------------------
+
+CakePHP JQValidator is a plugin for a CakePHP application used for client-side data validation defined within the CakePHP
+model. On the server side it’s a standard CakePHP plugin, and on the client side it’s written in jQuery (currently 
+developed for jQuery 1.4.2). If you wish to know more, read on...
+
+--------------------------------------------------------------------------------------------------------------------------
+Functionality
+--------------------------------------------------------------------------------------------------------------------------
+
+The idea of JQValidator is to have a data validation defined in CakePHP models prior to sending the information to the 
+server. This has many advantages, reducing the number of server requests, making the work faster are just some of them.
+
+After defining the validation in your model like so:
+
+var $validate = array
+(
+	'notemptyfield' => array
+	(
+		'notempty' => array
+		(
+				'rule' => array('notempty'),
+				'message' => 'Validation message #1',
+		),
+	),
+	'numericfield' => array
+	(
+		'numeric' => array
+		(
+			'rule' => array('numeric'),
+			'message' => 'Validation message #2',
+		),
+	),
+	'datefield' => array
+	(
+		'date' => array
+		(
+			'rule' => array('date'),
+			'message' => 'Validation message #3',
+		),
+	),
+);
+
+And using the plugin like in the usage page. You will recieve a nice (actually ugly by my opinon) alert dialog notifying 
+you of all errors in your input.
+
+Currently supported datatypes for CakePHP client-side validation are:
+ * notempty
+ * numeric
+ * date
+
+That’s all for now, feel free to use this plugin and enhance it, I appretiate all the help.
+
+--------------------------------------------------------------------------------------------------------------------------
+Installation
+--------------------------------------------------------------------------------------------------------------------------
+
+First you need to install the plugin like so:
+
+    * Download the CakePHP JQValidator plugin from github (http://github.com/barbir/cakephp-jq-validator/archives/master)
+    * Unpack the contents of the archive to the plugins folder of the CakePHP project and rename the first level folder
+      in the archive (eg: “barbir-cakephp-jq-validator-xxxxxxx”) to “j_q_validator”, and you will have a structure like 
+      this “myproject/plugins/j_q_validator/”.
+    * It’s installed… Contents of the “myproject/plugins/j_q_validator/” folder should look like this:
+          o controllers
+          o views
+          o j_q_validator_app_controller.php
+          o j_q_validator_app_model.php
+          o README
+
+--------------------------------------------------------------------------------------------------------------------------
+Usage
+--------------------------------------------------------------------------------------------------------------------------
+
+When you install the plugin, you are ready to use it. In order to use the CakePHP JQValidator plugin, you need to:
+
+    * include the JQValidator helper and component
+    * initialize the validation in your controller
+    * render the validation script in your view where you want to use the client side validation to appear
+
+Include the JQValidator helper and component
+--------------------------------------------
+
+Include the JQValidator component and helper in your controller, by adding ‘JQValidator.JQValidator’ to both your 
+$components and $helpers arrays.
+
+var $components = array(... 'JQValidator.JQValidator');
+var $helpers = array(... 'JQValidator.JQValidator');
+
+Initialize the validation
+-------------------------
+
+In the controller action (in which you wish to use the validation), type the code like in the following example:
+
+$this->JQValidator->addValidation
+(
+	'MyModel',
+	$this->MyModel->validate,
+	__('Save failed, fix the following errors:', true),
+	'MyModelAddForm'
+);
+
+Parameter description for addValidation function:
+ * $modelName – name of the model that contains the fields to validate
+ * $validationOptions – validation array of the model to validate
+ * $errorMessageTitle – (not mandatory) – a title of the message that will be displayed if the validation fails.
+ * $formId – (not mandatory) id of the form to validate, if it is not sent, all fields that are defined in the 
+      $validationOptions for the model with the $modelName will be validated
+
+Render the validation script
+----------------------------
+
+In your view you should add the following line to render validation scripts for validating all defined models:
+
+<?php echo $jQValidator->validator(); ?>
+
+--------------------------------------------------------------------------------------------------------------------------
+Licence
+--------------------------------------------------------------------------------------------------------------------------
+CakePHP JQValidator Plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any 
+later version.
+ 
+CakePHP JQValidator Plugin is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more 
+details.
+ 
+You should have received a copy of the GNU General Public License along with CakePHP JQValidator Plugin. If not, see 
+http://www.gnu.org/licenses/.

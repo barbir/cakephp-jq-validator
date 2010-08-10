@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with CakePHP JQValidator Plugin. If not, see <http://www.gnu.org/licenses/>.
 */ 
 
-class FilterAppController extends AppController
+class JQValidatorAppController extends AppController
 {
 
 }
